@@ -10,7 +10,7 @@ def load_tasks(filename=FILENAME):
     except FileNotFoundError:
         return []
 
-def save_tasks(filename=FILENAME):
+def save_tasks(tasks, filename=FILENAME):
     with open(filename, "w") as f:
         json.dump(tasks, f, indent=4)
 
@@ -36,12 +36,15 @@ You didn't give me a task.""")
             else:
                 for i, task in enumerate(tasks, 1):
                     print(f"Task {i}: {task}")
-                task_num = int(input("Which task you wanna remove? "))
-                if 1 <= task_num <= len(tasks):
-                    removed = tasks.pop(task_num - 1)
-                    print(f"Task '{removed}' has been removed from ya list.")
-                else:
-                    print("You buggin'. That task ain't on the list.")
+                try:
+                    task_num = int(input("Which task you wanna remove? "))
+                    if 1 <= task_num <= len(tasks):
+                        removed = tasks.pop(task_num - 1)
+                        print(f"Task '{removed}' has been removed from ya list.")
+                    else:
+                        print("You buggin'. That task ain't on the list.")
+                except ValueError:
+                    print("Bruh, that ain’t even a number.")
         elif command == 'quit':
             save_tasks(tasks)
             print('This was not fun for me. Free me from this hell.')
@@ -50,3 +53,4 @@ You didn't give me a task.""")
             print("You had three choices, and you chose poorly.")
             break
 run()
+
